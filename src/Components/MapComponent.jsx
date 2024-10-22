@@ -16,6 +16,13 @@ const CustomMarkerIcon = L.icon({
     popupAnchor: [1, -34],
 });
 
+const DestinationMarkerIcon = L.icon({
+    iconUrl: 'https://png.pngtree.com/png-clipart/20230123/original/pngtree-flat-red-location-sign-png-image_8927579.png',
+    iconSize: [35, 41],
+    iconAnchor: [12, 41],
+    popupAnchor: [1, -34],
+});
+
 const MapViewSetter = ({ position }) => {
     const map = useMap();
 
@@ -112,17 +119,14 @@ const MapComponent = () => {
 
     const handleSwapLocations = () => {
         if (markerPosition && destinationPosition) {
-            // Swap positions
             const tempMarkerPosition = markerPosition;
             setMarkerPosition(destinationPosition);
             setDestinationPosition(tempMarkerPosition);
 
-            // Swap input values
             const tempSearchQuery = searchQuery;
             setSearchQuery(destinationQuery);
             setDestinationQuery(tempSearchQuery);
 
-            // Calculate distance after swapping
             const newDistance = getDistance(
                 { latitude: destinationPosition[0], longitude: destinationPosition[1] },
                 { latitude: tempMarkerPosition[0], longitude: tempMarkerPosition[1] }
@@ -130,11 +134,10 @@ const MapComponent = () => {
 
             alert(`Estimated Travel Distance: ${(newDistance / 1000).toFixed(2)} km`);
 
-            // Update the route
             setRoute((prevRoute) => [
-                ...prevRoute.slice(0, -1), // Remove the last point (previous destination)
-                destinationPosition, // Add the new destination
-                tempMarkerPosition // Add the new current position
+                ...prevRoute.slice(0, -1),
+                destinationPosition,
+                tempMarkerPosition
             ]);
         }
     };
@@ -158,7 +161,9 @@ const MapComponent = () => {
                     onChange={(e) => setDestinationQuery(e.target.value)}
                     placeholder="Choose destination"
                 />
-                <button onClick={handleDestination}>Set Destination</button>
+                <button onClick={handleDestination}>
+                    Set Destination
+                </button>
                 <button onClick={handleCurrentLocation} title="Current Location">
                     <FaLocationCrosshairs size={15} />
                 </button>
@@ -175,7 +180,7 @@ const MapComponent = () => {
                     </Marker>
                 )}
                 {destinationPosition && (
-                    <Marker position={destinationPosition} icon={CustomMarkerIcon}>
+                    <Marker position={destinationPosition} icon={DestinationMarkerIcon}>
                         <Popup>Destination</Popup>
                     </Marker>
                 )}

@@ -40,3 +40,10 @@
     height: 600px;
     width: 100%;
 }
+
+.red-marker .leaflet-marker-icon {
+    color: red !important;
+    border-radius: 50%;
+    width: 25px;
+    height: 41px;
+}
