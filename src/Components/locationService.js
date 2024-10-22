@@ -8,7 +8,7 @@ export const fetchLocation = async (query) => {
         if (data.results.length > 0) {
             return {
                 latitude: data.results[0].geometry.lat,
-                longitude: data.results[0].geometry.lng,
+                longitude: data.results[0].geometry.lng, 
             };
         }
     } catch (error) {

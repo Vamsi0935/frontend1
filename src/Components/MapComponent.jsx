@@ -8,6 +8,7 @@ import { FaExchangeAlt } from "react-icons/fa";
 import L from 'leaflet';
 import axios from 'axios';
 import { getDistance } from 'geolib';
+import moment from 'moment-timezone';
 
 const CustomMarkerIcon = L.icon({
     iconUrl: require('leaflet/dist/images/marker-icon.png'),
@@ -69,6 +70,11 @@ const MapComponent = () => {
             setMarkerPosition([location.latitude, location.longitude]);
             setPosition([location.latitude, location.longitude]);
             setRoute([[location.latitude, location.longitude]]);
+            if (location.timezone) {
+                displayLocalTime(location.timezone);
+            } else {
+                alert("Timezone information is not available.");
+            }
         }
     };
 
@@ -78,6 +84,11 @@ const MapComponent = () => {
             const destination = [location.latitude, location.longitude];
             setDestinationPosition(destination);
             setRoute((prevRoute) => [...prevRoute, destination]);
+            if (location.timezone) {
+                displayLocalTime(location.timezone);
+            } else {
+                alert("Timezone information is not available.");
+            }
 
             const distance = getDistance(
                 { latitude: position[0], longitude: position[1] },
@@ -140,6 +151,11 @@ const MapComponent = () => {
                 tempMarkerPosition
             ]);
         }
+    };
+
+    const displayLocalTime = (timezone) => {
+        const localTime = moment().tz(timezone).format('YYYY-MM-DD HH:mm:ss');
+        alert(`Local Time: ${localTime}`);
     };
 
     return (
